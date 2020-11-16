@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">ControleVenda</string>
+
+    <array name="tipos">
+        <item>Anel</item>
+        <item>Brinco</item>
+        <item>Colar</item>
+        <item>Choker</item>
+        <item>Gargantilha</item>
+        <item>Pulseira</item>
+        <item>Tornozeleira</item>
+    </array>
+
+</resources>

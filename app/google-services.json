@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "360242090493",
+    "firebase_url": "https://controle-venda-8b4fe.firebaseio.com",
+    "project_id": "controle-venda-8b4fe",
+    "storage_bucket": "controle-venda-8b4fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:360242090493:android:e38aafcfae94ef110b4994",
+        "android_client_info": {
+          "package_name": "com.controle.venda"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "360242090493-iic3j6fa3jce2dgs9mp8e8pl0hdlqa9f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtuGkLVPVBVC4dY1stB2rab3nJF3p3H1Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "360242090493-iic3j6fa3jce2dgs9mp8e8pl0hdlqa9f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
