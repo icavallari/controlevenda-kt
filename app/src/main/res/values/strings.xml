@@ -11,6 +11,11 @@
         <item>Tornozeleira</item>
     </array>
 
+    <array name="situacoes">
+        <item>Pago</item>
+        <item>Aguardando Pagamento</item>
+    </array>
+
     <string name="emaiLogin">drigocavallari@gmail.com</string>
     <string name="senhaLogin">15$4684A0nAB</string>
 

@@ -1,80 +1,125 @@
 package com.controle.venda
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
+import com.controle.venda.database.AppDatabase
+import com.controle.venda.model.Produto
+import com.controle.venda.model.Venda
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
+import java.text.SimpleDateFormat
 
 class MainActivity : AppCompatActivity() {
 
-    var vendas = arrayListOf(
+    lateinit var database: AppDatabase
 
-        Venda(
-            "Ivanilda", arrayOf(
-                Produto("AF5641", "Brinco")
-                , Produto("2AGH641", "Tornozeleira")
-                , Produto("2AUAS41", "Pulseira")
-                , Produto("2KASS41", "Gargantilha")
-            )
-        )
-
-        , Venda("Gabriela", arrayOf(Produto("Q15641", "Colar")))
-        , Venda("Elena", arrayOf(Produto("Q15641", "Anel")))
-
-    )
+    var adapter = VendaAdapter(ArrayList())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var auth = Firebase.auth
+        setupDatabase()
 
-        auth.signInWithEmailAndPassword(
-            getString(R.string.emaiLogin),
-            getString(R.string.senhaLogin)
-        )
-            .addOnCompleteListener(this) {
-                Toast.makeText(this, "success", Toast.LENGTH_SHORT).show()
-                //connectDb()
+        setupRecycler()
 
-                initRecycler()
-            }
-            .addOnFailureListener(this) {
-                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-            }
+        inicializarDb(database)
 
         btn_add_venda_act.setOnClickListener {
 
-            val intent = Intent(this, CadastroVendaActivity::class.java)
+            val intent = Intent(this, VendaActivity::class.java)
             startActivity(intent)
 
         }
 
     }
 
-    fun initRecycler() {
+    override fun onResume() {
+        super.onResume()
 
-        recycler_view_act_main.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = VendaAdapter(vendas)
+        doAsync {
+            var vendas = database.vendaDao().findVendasPendentes()
+
+            var qtdVendas = database.vendaDao().qtdVendas()
+
+            var qtdProdutos = database.produtoDao().qtdProdutos()
+
+            uiThread {
+                adapter.vendas = vendas
+                adapter.notifyDataSetChanged()
+
+                txt_itens_vendidos_actmain.setText(qtdProdutos.toString())
+                txt_qtd_vendas_actmain.setText(qtdVendas.toString())
+            }
+
         }
-
     }
 
-    fun connectDb() {
+    fun setupRecycler() {
+        recycler_view_act_main.apply {
+            layoutManager = LinearLayoutManager(context)
+        }
+        recycler_view_act_main.adapter = adapter
 
-        val database = Firebase.database
-        database.setPersistenceEnabled(true)
+        adapter.setItemClickListener { vendaId ->
 
-        val vendasRef = database.getReference("_vendas_")
-        vendasRef.setValue(vendas)
+            val intent = Intent(this, VendaActivity::class.java)
+            intent.putExtra(VendaActivity.EXTRA_VENDA_ID, vendaId)
+            startActivity(intent)
 
-        //produtos.push()
+        }
+    }
+
+    private fun setupDatabase() {
+        database = AppDatabase.getInstance(this)
+    }
+
+    private fun inicializarDb(database: AppDatabase) {
+
+        doAsync {
+            database.vendaDao()?.deleteAll()
+
+            var vendaId: Long = 0
+            var statusInicial = "Aguardando Pagamento"
+
+            var sdf = SimpleDateFormat("dd/MM/yyyy")
+
+            vendaId = database.vendaDao()?.create(Venda(0, "Gaby", sdf.parse("14/11/2020"), statusInicial))
+            database.produtoDao()?.create(Produto(0, "Anel", "MJ6456", vendaId, 24.00))
+
+            vendaId = database.vendaDao()?.create(Venda(0, "Vani", sdf.parse("15/11/2020"), statusInicial))
+            database.produtoDao()?.create(Produto(0, "Brinco", "MJ20396", vendaId, 11.90))
+            database.produtoDao()?.create(Produto(0, "Brinco", "MJ20380", vendaId, 11.90))
+            database.produtoDao()?.create(Produto(0, "Brinco", "MJ20412", vendaId, 11.90))
+
+            vendaId = database.vendaDao()?.create(Venda(0, "Ivone", sdf.parse("15/11/2020"), statusInicial))
+            database.produtoDao()?.create(Produto(0, "Brinco", "MJ11712", vendaId, 11.90))
+            database.produtoDao()?.create(Produto(0, "Pulseira", "MJ12807", vendaId, 15.90))
+            database.produtoDao()?.create(Produto(0, "Brinco", "MJ21349", vendaId, 34.90))
+
+            vendaId = database.vendaDao()?.create(Venda(0, "Ivone", sdf.parse("19/11/2020"), statusInicial))
+            database.produtoDao()?.create(Produto(0, "Brinco", "MJ16132", vendaId, 19.90))
+
+            vendaId = database.vendaDao()?.create(Venda(0, "Tia Geralda", sdf.parse("19/11/2020"), statusInicial))
+            database.produtoDao()?.create(Produto(0, "Tornozeleira", "MJ12645", vendaId, 19.90))
+
+            vendaId = database.vendaDao()?.create(Venda(0, "Amanda Agata", sdf.parse("15/11/2020"), "Pago"))
+            database.produtoDao()?.create(Produto(0, "Pulseira", "MJ12023", vendaId, 24.90))
+
+            vendaId = database.vendaDao()?.create(Venda(0, "Rafa Aprendiz", sdf.parse("15/11/2020"), statusInicial))
+            database.produtoDao()?.create(Produto(0, "Brinco", "MJ14503", vendaId, 13.00))
+
+            vendaId = database.vendaDao()?.create(Venda(0, "Adriana", sdf.parse("19/11/2020"), statusInicial))
+            database.produtoDao()?.create(Produto(0, "Pulseira", "MJ10381", vendaId, 37.00))
+            database.produtoDao()?.create(Produto(0, "Gargantilha", "MJ10097", vendaId, 44.90))
+            database.produtoDao()?.create(Produto(0, "Gargantilha", "MJ18086", vendaId, 49.90))
+        }
+
     }
 
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingLeft="12dp"
+    android:paddingTop="5dp"
+    android:paddingRight="12dp"
+    android:paddingBottom="5dp"
+    android:weightSum="10">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/main_produto_tipo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:textColor="@color/txtColor" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/main_produto_valorrevenda"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:gravity="right"
+        android:textColor="@color/txtColor" />
+
+</LinearLayout>

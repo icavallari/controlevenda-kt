@@ -37,7 +37,7 @@
                 android:textColor="@color/txtColor" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/item_venda_previsaopagamento"
+                android:id="@+id/item_venda_datavenda"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"

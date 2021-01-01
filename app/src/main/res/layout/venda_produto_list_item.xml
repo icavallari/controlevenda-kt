@@ -3,24 +3,27 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingLeft="12dp"
-    android:paddingTop="7dp"
+    android:background="@drawable/border_item"
+    android:layout_marginBottom="15dp"
+    android:paddingLeft="10dp"
+    android:paddingTop="10dp"
+    android:layout_marginLeft="3dp"
+    android:layout_marginRight="3dp"
     android:paddingRight="12dp"
-    android:paddingBottom="7dp"
     android:weightSum="10">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/item_produto_tipo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="5"
+        android:id="@+id/venda_produto_tipo"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_weight="7"
         android:textColor="@color/txtColor" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/item_produto_valorrevenda"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="5"
+        android:id="@+id/venda_produto_valorrevenda"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_weight="3"
         android:gravity="right"
         android:textColor="@color/txtColor" />
 
